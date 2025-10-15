@@ -17,17 +17,37 @@ const app = express();
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: false
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+  exposedHeaders: ['Content-Length', 'X-JSON'],
+  credentials: false,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
+
+// Preflight requests için OPTIONS method handler
+app.options('*', cors());
 
 app.use(express.json()); // Express 5'te body-parser dahili
 
-// Swagger UI
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ 
+    success: true, 
+    message: "Server is running",
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Swagger UI için özel CORS ve CSP ayarları
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
   swaggerOptions: {
     persistAuthorization: true,
-  }
+    displayRequestDuration: true,
+    tryItOutEnabled: true,
+    supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+  },
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "İş Takip API Docs"
 }));
 
 // Routes
