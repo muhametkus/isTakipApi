@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const sequelize = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const customerRoutes = require("./routes/customerRoutes");
@@ -11,6 +12,10 @@ const errorHandler = require("./middlewares/errorHandler");
 require("./entities/associations");
 
 const app = express();
+
+// CORS middleware
+app.use(cors());
+
 app.use(express.json()); // Express 5'te body-parser dahili
 
 // Swagger UI
