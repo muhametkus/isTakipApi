@@ -24,8 +24,8 @@ app.use(cors({
   optionsSuccessStatus: 204
 }));
 
-// Preflight requests için OPTIONS method handler
-app.options('*', cors());
+// Handle preflight requests for all routes
+app.options('/*', cors());
 
 app.use(express.json()); // Express 5'te body-parser dahili
 
