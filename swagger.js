@@ -17,6 +17,10 @@ const swaggerOptions = {
         url: "http://localhost:3000",
         description: "Development server",
       },
+      {
+        url: "http://e80wggwoc44owgo4c0ckkc88.89.252.153.218.sslip.io",
+        description: "Development server (alternative)",
+      },
     ],
     components: {
       schemas: {

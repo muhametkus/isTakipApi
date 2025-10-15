@@ -13,13 +13,22 @@ require("./entities/associations");
 
 const app = express();
 
-// CORS middleware
-app.use(cors());
+// CORS middleware - tüm origin'lere ve methodlara izin ver
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
+}));
 
 app.use(express.json()); // Express 5'te body-parser dahili
 
 // Swagger UI
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
+  swaggerOptions: {
+    persistAuthorization: true,
+  }
+}));
 
 // Routes
 app.use("/api/users", userRoutes);
