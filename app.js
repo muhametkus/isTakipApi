@@ -24,9 +24,6 @@ app.use(cors({
   optionsSuccessStatus: 204
 }));
 
-// Handle preflight requests for all routes
-app.options('/*', cors());
-
 app.use(express.json()); // Express 5'te body-parser dahili
 
 // Health check endpoint
